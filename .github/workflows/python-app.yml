@@ -9,7 +9,11 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [3.10, 3.11, 3.12]
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
 
     permissions:
       contents: read # access to check out code and install dependencies
@@ -20,7 +24,7 @@ jobs:
     - name: Set up Python 3.10
       uses: actions/setup-python@v6
       with:
-        python-version: "3.10"
+        python-version: ${{ matrix.version }}
     
     - name: Run python file 
       env:
